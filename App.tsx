@@ -1,131 +1,89 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+import { SafeAreaView, StatusBar } from "react-native"
+import { NavigationContainer } from "@react-navigation/native"
+import { createDrawerNavigator } from "@react-navigation/drawer"
+import HomeScreen from "./src/screens/Home"
+import OrderScreen from "./src/screens/Order"
+import OrderCompletedScreen from "./src/screens/OrderCompleted"
+import AllOrderScreen from "./src/screens/AllOrder"
+import CustomersScreen from "./src/screens/Customers"
+import EmptyTableScreen from "./src/screens/EmptyTable"
+import MaterialIcon from "react-native-vector-icons/MaterialIcons"
 
-import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+const Drawer = createDrawerNavigator()
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
-
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+const App = () => {
   return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
+    <SafeAreaView style={{ flex: 1 }}>
+      <StatusBar barStyle="dark-content" backgroundColor="#5c6bc0" />
+      <NavigationContainer>
+        <Drawer.Navigator
+          initialRouteName="Home"
+          screenOptions={{
+            headerShown: true,
+            headerStyle: {
+              backgroundColor: "#5c6bc0",
+            },
+            headerTintColor: "#fff",
+            headerTitleStyle: {
+              fontWeight: "bold",
+            },
+            drawerActiveTintColor: "#5c6bc0",
+            drawerInactiveTintColor: "#333",
+          }}
+        >
+          <Drawer.Screen
+            name="Home"
+            component={HomeScreen}
+            options={{
+              title: "Trang chủ",
+              drawerIcon: ({ color }) => <MaterialIcon name="home" size={24} color={color} />,
+            }}
+          />
+          <Drawer.Screen
+            name="Order"
+            component={OrderScreen}
+            options={{
+              title: "Tạo đơn hàng",
+              drawerIcon: ({ color }) => <MaterialIcon name="add-shopping-cart" size={24} color={color} />,
+            }}
+          />
+          <Drawer.Screen
+            name="OrderCompleted"
+            component={OrderCompletedScreen}
+            options={{
+              title: "Đơn đã hoàn thành",
+              drawerIcon: ({ color }) => <MaterialIcon name="check-circle" size={24} color={color} />,
+            }}
+          />
+          <Drawer.Screen
+            name="AllOrders"
+            component={AllOrderScreen}
+            options={{
+              title: "Tất cả đơn hàng",
+              drawerIcon: ({ color }) => <MaterialIcon name="receipt" size={24} color={color} />,
+            }}
+          />
+          <Drawer.Screen
+            name="Customers"
+            component={CustomersScreen}
+            options={{
+              title: "Khách hàng",
+              drawerIcon: ({ color }) => <MaterialIcon name="people" size={24} color={color} />,
+            }}
+          />
+          <Drawer.Screen
+            name="EmptyTables"
+            component={EmptyTableScreen}
+            options={{
+              title: "Quản lý bàn",
+              drawerIcon: ({ color }) => <MaterialIcon name="table-bar" size={24} color={color} />,
+            }}
+          />
+        </Drawer.Navigator>
+      </NavigationContainer>
+    </SafeAreaView>
+  )
 }
 
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+export default App
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  /*
-   * To keep the template simple and small we're adding padding to prevent view
-   * from rendering under the System UI.
-   * For bigger apps the reccomendation is to use `react-native-safe-area-context`:
-   * https://github.com/AppAndFlow/react-native-safe-area-context
-   *
-   * You can read more about it here:
-   * https://github.com/react-native-community/discussions-and-proposals/discussions/827
-   */
-  const safePadding = '5%';
-
-  return (
-    <View style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        style={backgroundStyle}>
-        <View style={{paddingRight: safePadding}}>
-          <Header/>
-        </View>
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-            paddingHorizontal: safePadding,
-            paddingBottom: safePadding,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
-
-export default App;
